@@ -1,0 +1,32 @@
+{% extends 'music/base.html' %}
+
+{% block body%}
+    {% if all_albums %}
+        <h3>Here are all my Albums:</h3>
+
+        <ul>
+            {% for album in all_albums %}
+                <li><a href="{% url 'music:detail' album.id %}" >{{ album.album_title }} by {{album.artist}}</a></li>
+
+            <!-- Delete Album -->
+                <form action="{% url 'music:album-delete' album.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                    <input type="hidden" name="album_id" value="{{ album.id }}" />
+                    <button type="submit" class="btn btn-link">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </form>
+
+            <!-- Edit Album -->
+                <a href="{% url 'music:album-update' album.id %}">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
+
+
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <h3>You don't have any albums</h3>
+    {% endif %}
+{% endblock%}
