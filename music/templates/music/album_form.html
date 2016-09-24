@@ -1,4 +1,4 @@
-{% extends 'music/base.html' %}
+{% extends 'music/base_detail.html' %}
 {% block title %}Viva Music: Add a New Album{% endblock %}
 {% block albums_active %}active{% endblock %}
 
@@ -10,6 +10,7 @@
         <div class="col-sm-12 col-md-7">
             <div class="panel panel-default">
                 <div class="panel-body">
+                    <h1>Add Album</h1><br>
 
                 <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}

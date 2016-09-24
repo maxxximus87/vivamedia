@@ -6,7 +6,7 @@ class Album(models.Model):
     artist = models.CharField(max_length=250)
     album_title = models.CharField(max_length=500)
     genre = models.CharField(max_length=100)
-    album_logo = models.FileField()
+    album_logo = models.FileField(blank=True)
 
     def get_absolute_url(self):
         return reverse('music:detail', kwargs={'pk':self.pk})
@@ -18,7 +18,31 @@ class Song(models.Model):
     album  = models.ForeignKey(Album, on_delete=models.CASCADE)
     file_type = models.CharField(max_length=10)
     song_title = models.CharField(max_length=250)
-    is_favorite = models.BooleanField(default=False)
+    song_file = models.FileField()
+
 
     def __str__(self):
         return self.song_title
+
+    def get_absolute_url(self):
+        return reverse('music:detail', kwargs={'pk':self.album_id})
+
+class Image(models.Model):
+    image_title = models.CharField(max_length=250)
+    image_file = models.FileField()
+
+    def __str__(self):
+        return self.image_title
+
+    def get_absolute_url(self):
+        return reverse('music:images')
+
+class Video(models.Model):
+    video_title = models.CharField(max_length=250)
+    video_file = models.FileField()
+
+    def __str__(self):
+        return self.video_title
+
+    def get_absolute_url(self):
+        return reverse('music:videos')

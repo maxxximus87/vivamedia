@@ -1,16 +1,17 @@
-{% extends 'music/base.html' %}
+{% extends 'music/base_visitor.html' %}
 {% block title %}Viva Media: Register User{% endblock %}
-{% block albums_active %}active{% endblock %}
+{% block register_active %}active{% endblock %}
 
 {% block body %}
+<div class="col-sm-4 col-md-4"></div>
 <div class="container-fluid">
 
     <div class="row">
 
-        <div class="col-sm-12 col-md-7">
-            <div class="panel panel-default">
-                <div class="panel-body">
-
+        <div class="col-sm-4 col-md-4">
+            <div class="span3">
+                <div class="well span6" align="center">
+                <h3><center>Register</center></h3>
                 <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {% include 'music/form-template.html' %}
