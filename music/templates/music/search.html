@@ -1,0 +1,106 @@
+{% extends 'music/base.html' %}
+
+{% block body%}
+   {% if albums %}
+        <h3>Matching results for Albums: Click album title for more details</h3><br>
+
+            <div class="container">
+                    <table class="table table-condensed">
+                        <thead>
+                        <tr>
+                            <th>Album Title</th>
+                            <th>Album Artist</th>
+                            <th>Edit</th>
+                            <th>Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for album in albums %}
+                        <tr>
+                            <td><a href="{% url 'music:detail' album.id %}" >{{ album.album_title }}</a></td>
+                            <td>{{album.artist}}</td>
+                            <td><a href="{% url 'music:album-update' album.id %}">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a></td>
+                            <td><form action="{% url 'music:album-delete' album.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                    <input type="hidden" name="album_id" value="{{ album.id }}" />
+                    <button type="submit" class="btn btn-link">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </form></td>
+                        </tr>
+
+                    {% endfor %}
+
+                        </tbody>
+  </table>
+</div>
+
+
+    {% else %}
+        <h3>You don't have any albums matches the query</h3>
+    {% endif %}
+
+    {% if image %}
+        <h3>Matching results for images: Click for full size image</h3>
+
+        <ul>
+            {% for image in image %}
+                {{ image.image_title }}
+                <li><a href="{{ image.image_file.url }}"><img src="{{ image.image_file.url }}"></a></li>
+
+            <!-- Delete Images -->
+                <form action="{% url 'music:delete_images' image.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                    <input type="hidden" name="album_id" value="{{ image.id }}" />
+                    <button type="submit" class="btn btn-link">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </form>
+
+        <!-- Edit Images -->
+                <a href="{% url 'music:images-update' image.id %}">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
+                <br>
+
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <h3>You don't have any images matches the query</h3>
+    {% endif %}
+
+    {% if video %}
+        <h3>Matching results for videos: Click to play</h3>
+
+        <ul>
+            {% for video in video %}
+                {{ video.video_title }}
+                <li><a href="/media/{{ video.video_file }}"><video src="{{ video.video_file.url }}"></video></a></li>
+
+            <!-- Delete Images -->
+                <form action="{% url 'music:delete_videos' video.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                    <input type="hidden" name="album_id" value="{{ video.id }}" />
+                    <button type="submit" class="btn btn-link">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </form>
+
+        <!-- Edit Images -->
+                <a href="{% url 'music:videos-update' video.id %}">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
+                <br>
+
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <h3>You don't have any videos matches the query</h3>
+    {% endif %}
+
+
+{% endblock%}

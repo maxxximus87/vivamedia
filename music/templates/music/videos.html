@@ -1,0 +1,34 @@
+{% extends 'music/base_others.html' %}
+{% block video_active %}active{% endblock %}
+
+{% block body%}
+    {% if video %}
+        <h3>These are all your uploaded videos: Click to play</h3>
+
+        <ul>
+            {% for video in video %}
+                <strong>{{ video.video_title }}</strong>
+                <li><a href="/media/{{ video.video_file }}"><video src="{{ video.video_file.url }}"></video></a></li>
+
+            <!-- Delete Images -->
+                <form action="{% url 'music:delete_videos' video.id %}" method="post" style="display: inline;">
+                {% csrf_token %}
+                    <input type="hidden" name="album_id" value="{{ video.id }}" />
+                    <button type="submit" class="btn btn-link">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </form>
+
+        <!-- Edit Images -->
+                <a href="{% url 'music:videos-update' video.id %}">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
+                <br>
+
+            {% endfor %}
+        </ul>
+
+    {% else %}
+        <h3>You don't have any videos</h3>
+    {% endif %}
+{% endblock%}
